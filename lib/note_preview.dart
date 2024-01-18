@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/add_note_page.dart';
 import 'package:notes/main.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +57,11 @@ class NotePreview extends StatelessWidget {
                     icon: const Icon(Icons.edit),
                     color: Colors.black54,
                     iconSize: 28,
-                    onPressed: () => appState.removeNote(note.title),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddNotePage(note: note)),
+                    ),
                   ),
                 ],
               ),
@@ -87,7 +92,8 @@ class NotePreview extends StatelessWidget {
                       note.tags.join(" "),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                      style:
+                          const TextStyle(fontSize: 12, color: Colors.black54),
                     ),
                   ),
                 ),

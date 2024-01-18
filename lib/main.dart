@@ -21,7 +21,7 @@ class Note extends HiveObject {
 
   Note({
     required this.title,
-    this.text = "Default Text",
+    this.text = "",
     List<String>? tags,
     required this.modificationDate,
   }) : tags = tags ?? [];

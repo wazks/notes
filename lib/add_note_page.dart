@@ -3,7 +3,12 @@ import 'package:notes/main.dart';
 import 'package:provider/provider.dart';
 
 class AddNotePage extends StatefulWidget {
-  const AddNotePage({super.key});
+  final Note? note;
+
+  const AddNotePage({
+    super.key,
+    this.note,
+  });
 
   @override
   State<AddNotePage> createState() => _AddNotePageState();
@@ -13,6 +18,20 @@ class _AddNotePageState extends State<AddNotePage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController textController = TextEditingController();
   TextEditingController tagsController = TextEditingController();
+
+  Note? editedNote;
+
+  @override
+  void initState() {
+    super.initState();
+
+    editedNote = widget.note;
+    if (editedNote != null) {
+      titleController.text = editedNote!.title;
+      textController.text = editedNote!.text;
+      tagsController.text = editedNote!.tags.join(" ");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +68,16 @@ class _AddNotePageState extends State<AddNotePage> {
                     text: textController.text,
                     tags: tagsController.text.split(" "),
                     modificationDate: DateTime.now());
-                appState.addNote(note);
-                Navigator.pop(context);
+                if (editedNote?.title == note.title ||
+                    !appState.notesBox.containsKey(titleController.text)) {
+                  if (editedNote?.title != null) {
+                    appState.removeNote(editedNote!.title);
+                  }
+                  appState.addNote(note);
+                  Navigator.pop(context);
+                } else {
+                  //logic to say that the note already exists
+                }
               },
               child: const Text('Save Note'),
             ),
