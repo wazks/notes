@@ -58,7 +58,8 @@ class _AddNotePageState extends State<AddNotePage> {
             const SizedBox(height: 16.0),
             TextField(
               controller: tagsController,
-              decoration: const InputDecoration(labelText: 'Tags'),
+              decoration: const InputDecoration(
+                  labelText: 'Tags (separated by spaces)'),
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
