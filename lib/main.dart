@@ -32,6 +32,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(NoteAdapter());
   await Hive.openBox<Note>('notesBox');
+  await Hive.openBox<Note>('dreamJournalBox');
 
   runApp(const MyApp());
 }
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: "Notes",
           theme: ThemeData(primarySwatch: Colors.orange),
-          home: const HomePage(),
+          home: const MyHomePage(),
         ));
   }
 }
@@ -54,23 +55,26 @@ class MyApp extends StatelessWidget {
 class MyAppState extends ChangeNotifier {
   late List<Note> notes;
   Box<Note> notesBox = Hive.box('notesBox');
+  Box<Note> dreamJournalBox = Hive.box('dreamJournalBox');
 
   MyAppState() {
-    getNotes();
+    getNotes(notesBox);
   }
-  void addNote(Note note) {
-    notesBox.put(note.title, note);
-    getNotes();
+  void addNote(Note note, Box<Note> box) {
+    box.put(note.title, note);
+    getNotes(box);
     notifyListeners();
   }
 
-  void removeNote(String title) {
-    notesBox.delete(title);
-    getNotes();
+  void removeNote(String title, Box<Note> box) {
+    box.delete(title);
+    getNotes(box);
     notifyListeners();
   }
 
-  void getNotes() async {
-    notes = notesBox.values.cast<Note>().toList();
+  void getNotes(Box<Note> box) async {
+    notes = box.values.cast<Note>().toList();
   }
+
+  MyAppState get appState => this;
 }

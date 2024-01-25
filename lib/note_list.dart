@@ -36,7 +36,6 @@ class NoteList extends StatelessWidget {
             return Container(
               margin: const EdgeInsets.all(containerMargin),
               child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(rowNotes.length, (index) {
                   final Note note = rowNotes[index];
                   return Padding(
